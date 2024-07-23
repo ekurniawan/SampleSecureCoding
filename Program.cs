@@ -15,7 +15,9 @@ builder.Services.AddDbContext<GlobomanticsSurveyDbContext>(
 builder.Services.AddDbContext<IdentityDbContext>(options => options.UseSqlite(
     builder.Configuration["ConnectionStrings:GloboIdentityDbConnectionString"]));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(
+    options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<IdentityDbContext>();
 
 var app = builder.Build();
 
@@ -30,6 +32,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapAreaControllerRoute(
     name: "Admin",
@@ -39,5 +42,7 @@ app.MapAreaControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();
