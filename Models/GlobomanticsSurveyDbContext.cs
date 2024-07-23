@@ -2,11 +2,11 @@
 
 namespace Globomantics.Survey.Models
 {
-    public class GlobomanticsSurveyDbContext: DbContext
+    public class GlobomanticsSurveyDbContext : DbContext
     {
-        public GlobomanticsSurveyDbContext(DbContextOptions<GlobomanticsSurveyDbContext> options): base(options)
+        public GlobomanticsSurveyDbContext(DbContextOptions<GlobomanticsSurveyDbContext> options) : base(options)
         {
-             
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
