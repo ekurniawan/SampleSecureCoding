@@ -30,8 +30,19 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 8;
-    //options.Lockout.MaxFailedAccessAttempts = 5;
-    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+    options.Lockout.MaxFailedAccessAttempts = 3;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+});
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Cookie.Path = "/";
+    options.Cookie.Name = "__Host-Session";
+    options.Cookie.Expiration = TimeSpan.FromMinutes(2);
 });
 
 var app = builder.Build();
@@ -48,6 +59,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapAreaControllerRoute(
     name: "Admin",
