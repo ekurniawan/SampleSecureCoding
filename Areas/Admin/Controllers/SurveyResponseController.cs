@@ -1,7 +1,12 @@
 ﻿using Globomantics.Survey.Areas.Admin.ViewModels;
+using Globomantics.Survey.Attributes;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Globomantics.Survey.Areas.Admin.Controllers
 {
+
+    [Authorize]
+    [EnforceStepUp]
     [Area("Admin")]
     public class SurveyResponseController : Controller
     {

@@ -42,7 +42,6 @@ builder.Services.AddSession(options =>
     options.Cookie.SameSite = SameSiteMode.Strict;
     options.Cookie.Path = "/";
     options.Cookie.Name = "__Host-Session";
-    options.Cookie.Expiration = TimeSpan.FromMinutes(2);
 });
 
 var app = builder.Build();
