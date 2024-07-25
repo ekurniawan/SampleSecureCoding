@@ -35,6 +35,27 @@ public class IdentityDbContext : IdentityDbContext<IdentityUser>
            }
        );
 
+        IdentityUser claimUser = CreateUser("SuperAdmin@globomantics.com");
+        builder.Entity<IdentityUser>().HasData(claimUser);
+
+        builder.Entity<IdentityUserClaim<string>>().HasData(
+            new IdentityUserClaim<string>()
+            {
+                UserId = claimUser.Id,
+                Id = 1,
+                ClaimType = "IsManager",
+                ClaimValue = "true"
+            }
+        );
+
+        builder.Entity<IdentityUserRole<string>>().HasData(
+            new IdentityUserRole<string>()
+            {
+                UserId = claimUser.Id,
+                RoleId = adminRole.Id
+            });
+
+
     }
 
     private IdentityUser CreateUser(string email)
