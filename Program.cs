@@ -19,6 +19,8 @@ builder.Services.AddDbContext<IdentityDbContext>(options => options.UseSqlite(
 
 builder.Services.AddDefaultIdentity<IdentityUser>(
     options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
+    .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<IdentityDbContext>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
@@ -42,6 +44,9 @@ builder.Services.AddSession(options =>
     options.Cookie.SameSite = SameSiteMode.Strict;
     options.Cookie.Path = "/";
     options.Cookie.Name = "__Host-Session";
+    options.Cookie.MaxAge = TimeSpan.FromHours(1);
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+
 });
 
 var app = builder.Build();

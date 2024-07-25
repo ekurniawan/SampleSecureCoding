@@ -14,8 +14,43 @@ public class IdentityDbContext : IdentityDbContext<IdentityUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
+
+        IdentityRole<string> adminRole = new IdentityRole()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = "Administrator",
+            ConcurrencyStamp = "1",
+            NormalizedName = "ADMINISTRATOR"
+        };
+        builder.Entity<IdentityRole>().HasData(adminRole);
+
+        IdentityUser roleUser = CreateUser("Admin@globomantics.com");
+        builder.Entity<IdentityUser>().HasData(roleUser);
+
+        builder.Entity<IdentityUserRole<string>>().HasData(
+           new IdentityUserRole<string>()
+           {
+               UserId = roleUser.Id,
+               RoleId = adminRole.Id
+           }
+       );
+
+    }
+
+    private IdentityUser CreateUser(string email)
+    {
+        IdentityUser user = new IdentityUser()
+        {
+            Id = Guid.NewGuid().ToString(),
+            UserName = email,
+            NormalizedUserName = email.ToUpper(),
+            Email = email,
+            NormalizedEmail = email.ToUpper(),
+            EmailConfirmed = true
+        };
+
+        PasswordHasher<IdentityUser> passwordHasher = new PasswordHasher<IdentityUser>();
+        user.PasswordHash = passwordHasher.HashPassword(user, email);
+        return user;
     }
 }
