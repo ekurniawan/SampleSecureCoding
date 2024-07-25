@@ -49,6 +49,14 @@ builder.Services.AddSession(options =>
 
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("SuperAdmin",
+     policy => policy.RequireClaim("IsManager", "true")
+     );
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
