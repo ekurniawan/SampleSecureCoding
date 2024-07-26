@@ -19,6 +19,7 @@ namespace Globomantics.Survey.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CompleteSurvey(Guid id, SurveyAnswer[] questions)
         {
             CustomerSurvey? customerSurvey = _globomanticsSurveyDbContext.CustomerSurveys
